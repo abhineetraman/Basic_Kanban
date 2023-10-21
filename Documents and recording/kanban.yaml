@@ -1,0 +1,381 @@
+openapi: 3.0.0
+info:
+  title: Kanban Application(Project)
+  description: >
+    <div>In this assignment, you have to create a CRUD API, database models using Flask-SQLAlchemy
+    <h3>General instructions:</h3>
+    <ol> 
+      <li> Submit a single .zip file containing all your submission files and folders, the name of which should be "roll_number.zip". E.g.: 21f1000000.zip </li>
+      <li>The folder structure inside the zip file should be as follows:</li>
+      <ol type = "I">
+        <li>The Python program must be written inside a file named "app.py". This file must reside inside the root folder.</li>
+        <li> The database file named "kanban_database.sqlite3". You are not required to submit this database file with your submission.</li>
+      </ol>
+    <li> You should not keep any code inside the scope of the condition " if __name__ == '__main__' " except run() call. </li>
+    <li> Allowed Python packages: flask, flask-sqlalchemy, and any standard Python3 package.</li>
+    <li> The database URI must be the same as: app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///kanban_database.sqlite3'.</li>
+    <li> You should not use create_all() call in your program to create a database.</li>
+    </ol>
+    </div>
+
+    <h3> Card Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>ID</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>Name</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Foreign Key((User.username), Not Null</td>
+      </tr>               
+    </tbody>
+    </table>
+
+    <h3> Task Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Title</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>Content</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>Deadline</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>      
+      <tr>
+        <td>C_Flag</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr> 
+      <tr>
+        <td>C_Date</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>  
+      <tr>
+        <td>Card_id</td>
+        <td>Integer</td>
+        <td>Foreign Key((Card.ID), Not Null</td>
+      </tr>  
+    </tbody>
+    </table>
+
+
+    <h3> User Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>sl_no</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+      <tr>
+        <td>password</td>
+        <td>String</td>
+        <td>Unique, Not Null</td>
+      </tr>
+    </tbody>
+    </table>
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+   /login:
+    description: End point login.
+    get:
+      description: Operation to login with username and password.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: raj
+                  password:
+                    type: string
+                    example: raja
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: incorrect id or password
+   /home:
+    description: End pointto display Card and its Task.
+    get:
+      description: Operation to update,delete, create card and task.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: TODO
+                  card details:
+                    type: string
+                    example: TODO
+                                  Xstudent
+                                  12/09/2022
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: incorrect id or password
+          
+   /home/create_card:
+    description: End point to create Card.
+    post:
+      description: Operation to create card.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: TODO
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: id or title already exists 
+ 
+   /home/create_task:
+    description: End point to create Card.
+    post:
+      description: Operation to create card.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Card_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: MAD1
+                  content:
+                    type: string
+                    example: Project need to be completed
+                  deadline:
+                    type: string
+                    example: 14/08/2022
+                  C_Flag:
+                    type: string
+                    example: yes
+                    
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: content or title already exists 
+          
+   /home/update_card/update_task:
+    description: End point to update task.
+    put:
+      description: Operation to update task.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Card_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: MAD1
+                  content:
+                    type: string
+                    example: Project need to be completed
+                  deadline:
+                    type: string
+                    example: 14/08/2022
+                  C_Flag:
+                    type: string
+                    example: yes
+                    
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: title not found
+
+   /home/{{card_id}}/update_Card:
+    description: End point to update Card.
+    put:
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      description: Operation to update card.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Card_id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: todo
+                    
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: title not found
+
+   /home/summary:
+    description: End point to display graph and completed task quantity.
+    get:
+      description: Operation to update,delete, create card and task.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: TODO
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: card not found
+  
+   /home/{{card_id}}/delete_card:
+    description: End point to display graph and completed task quantity.
+    delete:
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      description: Operation to update,delete, create card and task.
+      responses:
+        '200':
+          description: Request Successful
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: card not found
+   
+   /home/{{card_id}}/update_card/{{title}}/delete_list:
+    description: End point to delete task.
+    delete:
+      parameters:
+        - in: path
+          name: card_id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - in: path
+          name: title
+          required: true
+          schema:
+            type: string
+            example: MAD1
+      responses:
+        '200':
+          description: Request Successful
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: card not found
+
+   /home/move_task:
+    description: End point to move task.
+    put:
+      description: Operation to move card.
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Card_id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: MAD 1
+                    
+                  
+        '500':
+          description: Internal Server Error
+        '404':
+          description: title not found
