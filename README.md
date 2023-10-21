@@ -23,7 +23,7 @@ Features
 
 Support
 
-For any help and suggestion please reach out to 21f1005523@student.onlinedegree.iitm.ac.in.
+For any help and suggestion please reach out to 21f1005523@ds.study.iitm.ac.in
 
 
 Roadmap
